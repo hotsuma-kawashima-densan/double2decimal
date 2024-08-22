@@ -11,11 +11,11 @@ import (
 func main() {
 	// ソースを生成する元になるDBへの接続
 	localDB, err := db.Open(&db.MySqlConfig{
-		Host:     "localhost",
+		Host:     "127.0.0.1",
 		Port:     13306,
-		DbName:   "myassess",
-		User:     "backend_api",
-		Password: "backend_api",
+		DbName:   "test",
+		User:     "root",
+		Password: "root",
 	})
 
 	if err != nil {
