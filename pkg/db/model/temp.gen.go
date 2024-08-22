@@ -8,9 +8,9 @@ const TableNameTemp = "temp"
 
 // Temp mapped from table <temp>
 type Temp struct {
-	ID    *int32   `gorm:"column:id" json:"id"`
-	Input *string  `gorm:"column:input" json:"input"`
-	A     *float64 `gorm:"column:A" json:"A"`
+	ID    int32    `gorm:"column:id;not null" json:"id"`
+	Input string   `gorm:"column:input;not null" json:"input"`
+	A     float64  `gorm:"column:A;not null" json:"A"`
 	B     *float64 `gorm:"column:B" json:"B"`
 	B0    *float64 `gorm:"column:B0" json:"B0"`
 	B1    *float64 `gorm:"column:B1" json:"B1"`

@@ -4,15 +4,15 @@
 drop table if exists temp;
 
 CREATE TABLE temp (
-   id INT
-  ,input VARCHAR(255)
-  ,A double
-  ,B double  -- -> decimal        = decimal(10, 0)
-  ,B0 double -- -> decimal(10)    = decimal(10, 0)
-  ,B1 double -- -> decimal(10, 1)
-  ,B2 double -- -> decimal(10, 2)
-  ,B3 double -- -> decimal(10, 3)
-  ,B4 double -- -> decimal(10, 4)
+   id INT NOT NULL
+  ,input VARCHAR(255) NOT NULL
+  ,A double NOT NULL
+  ,B double  NOT NULL -- -> decimal        = decimal(10, 0)
+  ,B0 double NOT NULL -- -> decimal(10)    = decimal(10, 0)
+  ,B1 double NOT NULL -- -> decimal(10, 1)
+  ,B2 double NOT NULL -- -> decimal(10, 2)
+  ,B3 double NOT NULL -- -> decimal(10, 3)
+  ,B4 double NOT NULL -- -> decimal(10, 4)
 );
 
 -- 桁数確認
@@ -44,12 +44,12 @@ INSERT INTO temp (id, input, A, B, B0, B1, B2, B3, B4) VALUES
 
 -- doubleをdecimalに変換
 alter table temp
-  modify column B decimal         -- = decimal(10, 0)
- ,modify column B0 decimal(10)    -- = decimal(10, 0)
- ,modify column B1 decimal(10, 1)
- ,modify column B2 decimal(10, 2)
- ,modify column B3 decimal(10, 3)
- ,modify column B4 decimal(10, 4)
+  modify column B decimal not null
+ ,modify column B0 decimal(10) not null
+ ,modify column B1 decimal(10, 1) not null
+ ,modify column B2 decimal(10, 2) not null
+ ,modify column B3 decimal(10, 3) not null
+ ,modify column B4 decimal(10, 4) not null
 ;
 
 -- 結果確認
