@@ -61,8 +61,44 @@ where table_schema = database();
 -- ----------  --------------------------  -----  --  --
 -- temp                         3,686,400  3,600   3   0
 
+-- 一度削除して同じデータを挿入
+DELETE FROM temp;
+DELIMITER //
+CREATE PROCEDURE insert_temp()
+BEGIN
+    DECLARE counter INT DEFAULT 0;
 
--- 一度データを削除して、データを挿入
+    label: LOOP
+        INSERT INTO temp (value) VALUES (0.001);
+        SET counter = counter + 1;
+
+        IF counter >= 100000 THEN
+            LEAVE label;
+        END IF;
+    END LOOP label;
+END //
+
+DELIMITER ;
+
+CALL insert_temp();
+
+-- decimal(20, 10)に変更した後のサイズ
+SET SESSION information_schema_stats_expiry= 1;
+select
+    table_name,
+    data_length + index_length,
+    floor((data_length+index_length)/1024) AS KB,
+    floor((data_length+index_length)/1024/1024) AS MB,
+    floor((data_length+index_length)/1024/1024/1024) AS GB
+from information_schema.tables
+where table_schema = database();
+
+-- TABLE_NAME  data_length + index_length     KB  MB  GB
+-- ----------  --------------------------  -----  --  --
+-- temp                         3,686,400  3,600   3   0
+
+
+-- 一度データを削除して、精度ギリギリのデータを挿入
 DELETE FROM temp;
 
 DROP PROCEDURE insert_temp;
