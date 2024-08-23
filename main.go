@@ -97,4 +97,38 @@ func main() {
 		// i: 60, floatSum: 0.2624999999999997 -> 0.262400, decimalSum: 0.2625
 		// i: 80, floatSum: 0.2624999999999996 -> 0.262400, decimalSum: 0.2625
 	}
+
+	// バインド変数
+	bindParams := map[string]any{}
+
+	sql := ""
+	sql += " SELECT"
+	sql += "     ID,"
+	sql += "     INPUT,"
+	sql += "     A,"
+	sql += "     B,"
+	sql += "     B0,"
+	sql += "     B1,"
+	sql += "     B2,"
+	sql += "     B3,"
+	sql += "     B4"
+	sql += " FROM temp"
+	sql += " WHERE"
+	sql += "     B4 = @B4"
+	sql += " ;"
+
+	bindParams["B4"] = data15.B4
+
+	var result []model.Temp
+	if err := db.Debug().Raw(sql, bindParams).Scan(&result).Error; err != nil {
+		fmt.Println("データ取得エラー:", err)
+		return
+	}
+	// 2024/08/23 15:52:41 /Users/hotsumakawashima/task/20240822_decimal/DSK_PJ/main.go:123
+	// [0.992ms] [rows:1]  SELECT     ID,     INPUT,     A,     B,     B0,     B1,     B2,     B3,     B4 FROM temp WHERE     B4 = '0.2625' ;
+
+	for _, data := range result {
+		fmt.Printf("id: %d, input: %s, A: %.16f, B: %s, B0: %s, B1: %s, B2: %s, B3: %s, B4: %s\n", data.ID, data.Input, data.A, data.B, data.B0, data.B1, data.B2, data.B3, data.B4)
+		// id: 15, input: , A: 0.2625000000000000, B: 0, B0: 0, B1: 0.3, B2: 0.26, B3: 0.263, B4: 0.2625
+	}
 }
