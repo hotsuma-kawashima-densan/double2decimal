@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"math"
 	"project+test/pkg/db/model"
 	"project+test/pkg/db/query"
 
@@ -48,12 +49,12 @@ func main() {
 	// id: 13, input: 15.315,   A: 15.315000,  B: 15,  B0: 15,  B1: 15.3,  B2: 15.32,  B3: 15.315, B4: 15.315
 	// id: 14, input: 1.234567, A: 1.234567,   B: 1,   B0: 1,   B1: 1.2,   B2: 1.23,   B3: 1.235,  B4: 1.2346
 
-	var floatVal float64 = 9.45
-	var decimalVal decimal.Decimal = decimal.NewFromFloat(9.45)
+	var floatVal float64 = 0.2625
+	var decimalVal decimal.Decimal = decimal.NewFromFloat(0.2625)
 
 	_data15 := model.Temp{
 		ID:    15,
-		Input: "9.45",
+		Input: "0.2625",
 		A:     floatVal,
 		B:     decimalVal,
 		B0:    decimalVal,
@@ -78,5 +79,22 @@ func main() {
 	}
 
 	fmt.Printf("id: %d, input: %s, A: %.16f, B: %s, B0: %s, B1: %s, B2: %s, B3: %s, B4: %s\n", data15.ID, data15.Input, data15.A, data15.B, data15.B0, data15.B1, data15.B2, data15.B3, data15.B4)
-	// id: 15, input: 9.45, A: 9.4499999999999993, B: 9, B0: 9, B1: 9.5, B2: 9.45, B3: 9.45, B4: 9.45
+	// id: 15, input: 0.2625, A: 0.2625000000000000, B: 0, B0: 0, B1: 0.3, B2: 0.26, B3: 0.263, B4: 0.2625
+
+	var floatSum float64 = 0
+	var decimalSum decimal.Decimal = decimal.NewFromInt(0)
+
+	for i := 0; i < 100; i++ {
+		floatSum += data15.A
+		decimalSum = decimalSum.Add(data15.B4)
+
+		if i%20 == 0 {
+			fmt.Printf("i: %d, floatSum: %.16f -> %f, decimalSum: %s\n", i, floatSum/(float64(i)+1.0), math.Floor(floatSum/(float64(i)+1.0)*10000.0)/10000.0, decimalSum.Div(decimal.NewFromInt(int64(i+1))))
+		}
+		// i: 0,  floatSum: 0.2625000000000000 -> 0.262500, decimalSum: 0.2625
+		// i: 20, floatSum: 0.2625000000000001 -> 0.262500, decimalSum: 0.2625
+		// i: 40, floatSum: 0.2624999999999999 -> 0.262400, decimalSum: 0.2625
+		// i: 60, floatSum: 0.2624999999999997 -> 0.262400, decimalSum: 0.2625
+		// i: 80, floatSum: 0.2624999999999996 -> 0.262400, decimalSum: 0.2625
+	}
 }
