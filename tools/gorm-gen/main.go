@@ -34,6 +34,18 @@ func main() {
 	})
 	g.UseDB(db)
 
+	var dataMap = map[string]func(gorm.ColumnType) (dataType string){
+		// int mapping
+		"decimal": func(columnType gorm.ColumnType) (dataType string) {
+			if n, ok := columnType.Nullable(); ok && n {
+				return "*decimal.Decimal"
+			}
+			return "decimal.Decimal"
+		},
+	}
+
+	g.WithDataTypeMap(dataMap)
+
 	// 生成対象のテーブル指定とテーブル個別の設定
 	g.ApplyBasic(
 		g.GenerateAllTable()...,
