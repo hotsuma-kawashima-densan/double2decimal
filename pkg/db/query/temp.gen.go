@@ -30,12 +30,12 @@ func newTemp(db *gorm.DB, opts ...gen.DOOption) temp {
 	_temp.ID = field.NewInt32(tableName, "id")
 	_temp.Input = field.NewString(tableName, "input")
 	_temp.A = field.NewFloat64(tableName, "A")
-	_temp.B = field.NewFloat64(tableName, "B")
-	_temp.B0 = field.NewFloat64(tableName, "B0")
-	_temp.B1 = field.NewFloat64(tableName, "B1")
-	_temp.B2 = field.NewFloat64(tableName, "B2")
-	_temp.B3 = field.NewFloat64(tableName, "B3")
-	_temp.B4 = field.NewFloat64(tableName, "B4")
+	_temp.B = field.NewField(tableName, "B")
+	_temp.B0 = field.NewField(tableName, "B0")
+	_temp.B1 = field.NewField(tableName, "B1")
+	_temp.B2 = field.NewField(tableName, "B2")
+	_temp.B3 = field.NewField(tableName, "B3")
+	_temp.B4 = field.NewField(tableName, "B4")
 
 	_temp.fillFieldMap()
 
@@ -49,12 +49,12 @@ type temp struct {
 	ID    field.Int32
 	Input field.String
 	A     field.Float64
-	B     field.Float64
-	B0    field.Float64
-	B1    field.Float64
-	B2    field.Float64
-	B3    field.Float64
-	B4    field.Float64
+	B     field.Field
+	B0    field.Field
+	B1    field.Field
+	B2    field.Field
+	B3    field.Field
+	B4    field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -74,12 +74,12 @@ func (t *temp) updateTableName(table string) *temp {
 	t.ID = field.NewInt32(table, "id")
 	t.Input = field.NewString(table, "input")
 	t.A = field.NewFloat64(table, "A")
-	t.B = field.NewFloat64(table, "B")
-	t.B0 = field.NewFloat64(table, "B0")
-	t.B1 = field.NewFloat64(table, "B1")
-	t.B2 = field.NewFloat64(table, "B2")
-	t.B3 = field.NewFloat64(table, "B3")
-	t.B4 = field.NewFloat64(table, "B4")
+	t.B = field.NewField(table, "B")
+	t.B0 = field.NewField(table, "B0")
+	t.B1 = field.NewField(table, "B1")
+	t.B2 = field.NewField(table, "B2")
+	t.B3 = field.NewField(table, "B3")
+	t.B4 = field.NewField(table, "B4")
 
 	t.fillFieldMap()
 
